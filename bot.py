@@ -4,7 +4,8 @@ import random
 import discord
 from discord.ext import commands
 from discord.ext.commands import Bot
-import gengraph
+import graph
+import analyse_text
 import giphy_client
 from giphy_client.rest import ApiException
 from pprint import pprint
@@ -15,7 +16,7 @@ token = os.getenv('DISCORD_TOKEN')
 giphy_token= os.getenv('GIPHY_TOKEN')
 
 client = discord.Client()
-bot_prefix = "!!"
+bot_prefix = "$"
 client = commands.Bot(command_prefix=bot_prefix)
 api_instance = giphy_client.DefaultApi() #Giphy API
 
@@ -63,6 +64,7 @@ async def on_message(message):
     channel = client.get_channel(635976394836279297)
     channels = ["bot"]
     greetings=['where have you been',"I've been expecting you",'how can I help you today']
+    thanks=["Happy to help","No worries"]
     bad_words = ["fuck", "Fuck", "dick","Dick"]
     #olddays = str
     #stockname = str
@@ -75,21 +77,24 @@ async def on_message(message):
             await message.channel.send(f"""This server has {id.member_count} member(s)!""")
         elif message.content == (f"{client.user} How many Members does the server have?"):
             await message.channel.send(f"""This server has {id.member_count} member(s)!""")
-        #elif message.content == (f"!stock {olddays} {stockname}"):
-            #information_type("close",{olddays},{stockname})
-            #await channel.send(file=discord.File('stockImage.png')) 
-        elif message.content.startswith(f'!clear'):
-            tmp = await channel.send('Clearing messages...')
-            deleted = await channel.purge(limit=10,check=None,bulk=True)
-            await channel.send(f"{message.author.name} deleted {format(len(deleted))} message(s).")
-            
-
-            
+        elif message.content == "!thanks":
+            await message.channel.send(f"{random.choice(thanks)} {message.author.name}")
+            await message.channel.send(gif_response('thanks'))         
     for word in bad_words:
         if message.content.count(word) > 0:
             await message.channel.purge(limit=1)
             await message.channel.send("Words like this are not permited in this server!")
+    await client.process_commands(message)
 
+@client.command()
+async def ask(ctx,*,arg):
+    myOrganisation , myTimeFrame, myDays = analyse_text.process_text(arg)
+    graph.information_type("closed",time_scale=myTimeFrame,days=myDays,company_name=myOrganisation)
+    await ctx.send(file=discord.File('stockImage.png'))
 
+@client.command(pass_context = True)
+async def clear(ctx, ammount=100):
+    channel = ctx.message.channel
+    await channel.purge(limit=ammount,check=None,bulk=True)
 
 client.run(token)
