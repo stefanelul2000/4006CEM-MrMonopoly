@@ -8,7 +8,7 @@ import graph
 import analyse_text
 import giphy_client
 from giphy_client.rest import ApiException
-from pprint import pprint
+#from pprint import pprint
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -66,8 +66,7 @@ async def on_message(message):
     greetings=['where have you been',"I've been expecting you",'how can I help you today']
     thanks=["Happy to help","No worries"]
     bad_words = ["fuck", "Fuck", "dick","Dick"]
-    #olddays = str
-    #stockname = str
+    
 
     if str(message.channel) in channels:
         if message.content.find("!hello") != -1:
