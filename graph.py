@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 import random
 import os
 import analyse_text
-
-
+import numpy as np
+#fig2 = plt.pyplot.figure(figsize=(8.0, 5.0))
 
 
 
@@ -28,6 +28,7 @@ Dependicies to install:
 pip install alpha_vantage
 pip install matplotlib
 pip install requests
+
 
 
 ================
@@ -96,6 +97,8 @@ def company_name_converter(company_name):
 
 def generate_api_key():
     api_key_list = ['QGXU2BPYW3O6BZ1M','OIANPZYCJ7CPJJPR',' MLPELGS77KBUFETO','BC05ZA0TDMYJMJ5F']
+    
+    
 
     return random.choice(api_key_list)
 
@@ -118,13 +121,19 @@ def closing_info(ticker='GOOG',days=5):
         
         if count == days_get:
                 break
-        dates.append(day)
+        dt = datetime.datetime.strptime(day, '%Y-%m-%d').strftime('%d/%m')
+        dates.append(dt)
         closing_list.append(float(results['Time Series (Daily)'][day]['4. close']))
         
         count += 1
     dates.reverse()
     closing_list.reverse()
     return dates,closing_list
+
+
+
+def convert_dt_format(date,days):
+       pass 
 
 
 ###############################################
@@ -142,7 +151,33 @@ def graphcompany(axis_x,axis_y,days,company_name):
     companyTitle = str(company_name)
   
     
+  #  plt.set_size_inches(8, 6)
+    # when saving, specify the DPI
+   # plt.savefig("myplot.png", dpi = 100)
+
+    figure = plt.gcf() # get current figure
+    figure.set_size_inches(8, 6)
+
+    fig, ax = plt.subplots()
+
+
+
+
+
+  #  for label in axis_x.get_ticklabels()[::2]:
+   #     label.set_visible(False)
+
+    plt.xticks(rotation=45)
+    #plt.xticks(np.arange(min(axis_x), max(axis_x), 5))
     plt.plot(axis_x,axis_y, linestyle='--', marker='o', color='b')
+    every_nth = 6
+    for n, label in enumerate(ax.xaxis.get_ticklabels()):
+                if n % every_nth != 0:
+                        label.set_visible(False)
+
+                        
+   # plt.locator_params(axis='y', nbins=2)
+   ## plt.locator_params(axis='x', numticks=4)
     plt.grid(True)
     plt.ylabel('Price in USD')
     plt.xlabel('Past '+days_shown+' day(s)')
@@ -153,7 +188,7 @@ def graphcompany(axis_x,axis_y,days,company_name):
   #  if os.path.exists("stockImage.png"):
     #    os.remove("stockImage.png")
 
-    plt.savefig('stockImage.png')
+    plt.savefig('stockImage.png',dpi =512)
     plt.show()
 
         
@@ -166,6 +201,6 @@ def graphcompany(axis_x,axis_y,days,company_name):
 
 #information_type(info_wanted,time_scale,days,company_name)
 
-information_type(info_wanted = 'close',time_scale="week",days=1000,company_name='microsoft')
+information_type(info_wanted = 'close',time_scale="week",days=365,company_name='google')
 
 #TODO Get Time period, E.g from 3 years ago to today
