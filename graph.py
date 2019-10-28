@@ -212,7 +212,7 @@ def graphcompany(axis_x,axis_y,days,company_name):
     #    os.remove("stockImage.png")
 
     plt.savefig('stockImage.png',dpi =512)
-    plt.show()
+    #plt.show()
 
         
 

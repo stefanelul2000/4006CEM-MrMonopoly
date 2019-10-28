@@ -1,16 +1,21 @@
 # Discord Bot
+
+#Import python libs
 import os
 import random
 import discord
 from discord.ext import commands
 from discord.ext.commands import Bot
-import graph
-import analyse_text
-import gif
 from dotenv import load_dotenv
-import time
 import asyncio
 import datetime
+import time
+
+#Import python external files
+import db
+import gif
+import graph
+import analyse_text
 
 load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
@@ -69,7 +74,7 @@ async def on_message(message):
         if message.content.count(word) > 0:
             await message.channel.purge(limit=1)
             await message.channel.send("Words like this are not permited in this server!")
-    await client.process_commands(message)
+    await client.process_commands(message)  
 
 @client.command()
 async def ask(ctx,*,arg):
@@ -82,8 +87,20 @@ async def ask(ctx,*,arg):
     await ctx.send(file=discord.File('stockImage.png'))
     await ctx.send(f"Here you go {ctx.author.mention}, showing you {myOrganisation} stock.")
     await asyncio.sleep(1)
-    await ctx.send(gif.gif_response('looks expensive'))     
+    await ctx.send(gif.gif_response('looks expensive'))
 
+@client.command()
+async def join(ctx):
+    ajoined = db.member_already_joined(ctx.author.id)
+    post = {"_id":ctx.author.id,"name":ctx.author.name,"balance":5000}
+    if ctx.author.id == ajoined:
+        await ctx.send("You can't join the stock market more than one time!")
+    else:  
+        db.member_join(post)
+        await ctx.send(f'{ctx.author.mention} you have now joined the stock market!')
+        await ctx.send("Here are 5000 USD to start, enjoy!")
+        await ctx.send(gif.gif_response("throwing money"))
+    
 @client.command(pass_context = True)
 async def clear(ctx, ammount=100):
     channel = ctx.message.channel

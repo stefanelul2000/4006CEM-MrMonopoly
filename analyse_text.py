@@ -77,7 +77,7 @@ def get_entity_from_text(userInput):
                 
             if ent.label_ != 'ORG':
                 organisation_entitiy = "orgMissing"
-
+           
 
     return  organisation_entitiy, date_entity
 
