@@ -10,6 +10,7 @@ import giphy_client
 from giphy_client.rest import ApiException
 from pprint import pprint
 from dotenv import load_dotenv
+import time
 
 load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
@@ -90,7 +91,10 @@ async def on_message(message):
 async def ask(ctx,*,arg):
     myOrganisation , myTimeFrame, myDays = analyse_text.process_text(arg)
     graph.information_type("closed",time_scale=myTimeFrame,days=myDays,company_name=myOrganisation)
+    await ctx.send("Working on it...")
+
     await ctx.send(file=discord.File('stockImage.png'))
+    await ctx.send(f"Here you go {message.author.name}, showing you {myOrganisation} stock.")
 
 @client.command(pass_context = True)
 async def clear(ctx, ammount=100):
