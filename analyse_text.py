@@ -87,42 +87,53 @@ def get_entity_from_text(userInput):
 
 
 def process_date_entity(date):
+
+    date_split = date.split()
    
     time_frame = None
     if "days" in date or "day" in date or "today" in date or "todays" in date:
-        if date.isdigit() is True:
-            converted_days = int(date.split())
+        for word in date_split:
+            if word.isdigit() is True:
+                converted_days = int(word)
+                break
 
-        else:
-            converted_days = 1
+            else:
+                converted_days = 1
 
         
         time_frame = "day"
 
     elif "week" in date or "weeks" in date or "weekly" in date:
-        if date.isdigit() is True:
-            converted_days = int(date.split()) * 5
-        else:
-            converted_days = 5
+        for word in date_split:
+            if word.isdigit() is True:
+                converted_days = int(word) *5
+                break
+        
+            else:
+                converted_days = 5
 
         time_frame = "week"
 
     elif "month" in date or "months" in date:
 
-        if date.isdigit() is True:
-            converted_days = int(date.split()) * 30
+        for word in date_split:
+            if word.isdigit() is True:
+                converted_days = int(word)*30
+                break
 
-        else:
-            converted_days = 30
+            else:
+                converted_days = 30
 
         time_frame = "month"
 
     elif "year" in date or "years" in date or "yearly" in date:
-        if date.isdigit() is True:
-            converted_days = int(date.split()) * 365
+        for word in date_split:
+            if word.isdigit() is True:
+                converted_days = int(word)*365
+                break
 
-        else:
-            converted_days = 365
+            else:
+                converted_days = 365
 
         
         time_frame = "year"

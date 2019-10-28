@@ -212,7 +212,7 @@ def graphcompany(axis_x,axis_y,days,company_name):
     #    os.remove("stockImage.png")
 
     plt.savefig('stockImage.png',dpi =512)
-    #plt.show()
+    plt.show()
 
         
 
@@ -224,6 +224,6 @@ def graphcompany(axis_x,axis_y,days,company_name):
 
 #information_type(info_wanted,time_scale,days,company_name)
 
-#information_type(info_wanted = 'close',time_scale="week",days=250,company_name='google')
+information_type(info_wanted = 'close',time_scale="week",days=5 ,company_name='google')
 
 #TODO Get Time period, E.g from 3 years ago to today
