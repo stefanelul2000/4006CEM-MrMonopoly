@@ -65,7 +65,7 @@ def get_entity_from_text(userInput):
     doc = nlp(userInput)
 
     for ent in doc.ents:
-            print(ent.text, ent.start_char, ent.end_char, ent.label_)
+         #   print(ent.text, ent.start_char, ent.end_char, ent.label_)
             if ent.label_ == 'ORG':
                 organisation_entitiy = ent.text
             
