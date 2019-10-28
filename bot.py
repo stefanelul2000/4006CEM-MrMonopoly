@@ -12,10 +12,10 @@ import datetime
 import time
 
 #Import python external files
-import db
-import gif
-import graph
-import analyse_text
+from functions import db
+from functions import gif
+from functions import graph
+from functions import analyse_text
 
 load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
