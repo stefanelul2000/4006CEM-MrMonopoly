@@ -1,5 +1,5 @@
 # Discord Bot
-
+# Creaded by Mono in 2019
 #Import python libs
 import os
 import random
