@@ -90,7 +90,7 @@ information_type(info_wanted,time_scale,days,company_name)
 
 def company_name_converter(company_name):
    company_name = company_name.lower() 
-   stockDict = {"apple":"AAPL","alphabet":"GOOGL","microsoft":"MSFT","amazon":"AMZN","facebook":"FB","google":"GOOGL"}
+   stockDict = {"apple":"AAPL","alphabet":"GOOGL","microsoft":"MSFT","amazon":"AMZN","facebook":"FB","google":"GOOGL","apple inc":"AAPL"}
 
    if company_name in stockDict:
        return stockDict[company_name]
@@ -224,6 +224,6 @@ def graphcompany(axis_x,axis_y,days,company_name):
 
 #information_type(info_wanted,time_scale,days,company_name)
 
-information_type(info_wanted = 'close',time_scale="week",days=5 ,company_name='google')
+#information_type(info_wanted = 'close',time_scale="week",days=5 ,company_name='google')
 
 #TODO Get Time period, E.g from 3 years ago to today
