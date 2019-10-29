@@ -75,9 +75,9 @@ def get_entity_from_text(userInput):
             if date_entity == None:
                 date_entity = "5 days"
                 
-            if ent.label_ != 'ORG':
-                organisation_entitiy = "orgMissing"
-           
+    #if ent.label_ != 'ORG':
+        #        organisation_entitiy = "orgMissing"
+
 
     return  organisation_entitiy, date_entity
 
@@ -142,8 +142,20 @@ def process_date_entity(date):
     return time_frame,converted_days
 
 
+def get_org_buy(userInput):
+    organisation_entitiy = ""
+    doc = nlp(userInput)
+    for ent in doc.ents:
+            #   print(ent.text, ent.start_char, ent.end_char, ent.label_)
+                if ent.label_ == 'ORG':
+                    organisation_entitiy = ent.text
+                
+                if ent.label_ =='CARDINAL':
+                    quantity_entity = ent.text
+                
 
 
+    return  organisation_entitiy,  quantity_entity
 
 
 
@@ -158,4 +170,9 @@ def process_text(userInput):
 
 #===============================================================  
 
+def process_text_buy(userInput):
 
+    organisation, buy_quantity = get_org_buy(userInput)
+
+
+    return organisation, buy_quantity
