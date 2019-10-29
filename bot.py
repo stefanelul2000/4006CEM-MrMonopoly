@@ -12,10 +12,11 @@ import datetime
 import time
 
 #Import python external files
-from functions import db
-from functions import gif
-from functions import graph
-from functions import analyse_text
+import db
+import gif
+import graph
+import analyse_text
+import buy as purchase
 
 load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
@@ -101,6 +102,14 @@ async def join(ctx):
         await ctx.send("Here are 5000 USD to start, enjoy!")
         await ctx.send(gif.gif_response("throwing money"))
     
+@client.command()
+async def buy(ctx,*,arg):
+    if purchase.buy_stock(ctx.author.id,arg) == False:
+        await ctx.send("Sorry, you can't buy this stock!")
+    else:
+        await ctx.send("Thanks for your purchase!")
+        await ctx.send(gif.gif_response("empty wallet"))   
+
 @client.command(pass_context = True)
 async def clear(ctx, ammount=100):
     channel = ctx.message.channel

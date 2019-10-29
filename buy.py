@@ -1,20 +1,14 @@
 #Display portfolio
 #pip install pymongo
 
-
 import pymongo
 from pymongo import MongoClient
 import requests
 import datetime
 from alpha_vantage.timeseries import TimeSeries as ts
 from alpha_vantage.techindicators import TechIndicators
-from matplotlib.pyplot import figure
-import matplotlib.pyplot as plt
 import random
 import os
-import analyse_text
-import numpy as np
-import matplotlib.dates 
 import analyse_text
 import graph
 
@@ -123,6 +117,7 @@ def buy_stock(userID,userInput):
     
     else:
         print("Can't buy")
+        return False
 
 
 
@@ -134,7 +129,7 @@ def buy_stock(userID,userInput):
 
 
 
-buy_stock(267402605318242304,"buy 3 shares in Amazon Inc")
+#buy_stock(267402605318242304,"buy 3 shares in Amazon Inc")
 
 """
 
