@@ -90,10 +90,17 @@ information_type(info_wanted,time_scale,days,company_name)
 
 def company_name_converter(company_name):
    company_name = company_name.lower() 
-   stockDict = {"apple":"AAPL","alphabet":"GOOGL","microsoft":"MSFT","amazon":"AMZN","facebook":"FB","google":"GOOGL","apple inc":"AAPL"}
+   #company_name = company_name.replace('inc', '')
+
+  # company_name = company_name.strip('inc')
+  # print(company_name)
+   stockDict = {"apple":"AAPL","alphabet":"GOOGL","microsoft":"MSFT","amazon":"AMZN","facebook":"FB","google":"GOOGL","apple inc":"AAPL", "amazon inc": "AMZN"}
 
    if company_name in stockDict:
        return stockDict[company_name]
+    
+   else:
+        print('not in dic')
 
 
 def generate_api_key():

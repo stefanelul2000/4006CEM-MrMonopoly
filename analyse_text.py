@@ -143,6 +143,7 @@ def process_date_entity(date):
 
 
 def get_org_buy(userInput):
+    organisation_entitiy = ""
     doc = nlp(userInput)
     for ent in doc.ents:
             #   print(ent.text, ent.start_char, ent.end_char, ent.label_)

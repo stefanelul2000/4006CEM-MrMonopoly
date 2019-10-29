@@ -43,10 +43,10 @@ post = {
 
 
 
-def add_stock_to_db(userID,date_today,company_ticker,shares,buy_price):
+def add_stock_to_db(userID,date_today,company_ticker,shares,buy_price,fresh_balance):
     collection.update_one(
         {"_id":userID},
-         {'$set':{"stocks"+'.'+company_ticker:{date_today:{"price": buy_price,"shares": shares}}}},
+         {'$set':{"balance":fresh_balance,"stocks"+'.'+company_ticker:{date_today:{"price": buy_price,"shares": shares}}}},
           upsert = True
          
          )
@@ -57,6 +57,7 @@ def add_stock_to_db(userID,date_today,company_ticker,shares,buy_price):
 
 def check_current_stock_price(ticker):
     API_KEY = graph.generate_api_key()
+    print(ticker)
    # print(API_KEY)
 
     r = requests.get('https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol='+ticker+'&interval=5min&apikey=demo'+API_KEY)
@@ -83,8 +84,10 @@ def check_current_stock_price(ticker):
 
 def buy_price(userInput):
     organisation , buy_quantity = analyse_text.process_text_buy(userInput)
+    print('organ1',organisation)
+
     organisation = str(graph.company_name_converter(organisation))
-   
+    print('organ',organisation)
 
     stock_price = float(check_current_stock_price(organisation))
     buy_quantity = int(buy_quantity)
@@ -113,9 +116,10 @@ def buy_stock(userID,userInput):
 
     user_bank = get_user_balance(userID)
     current_day =  datetime.today().strftime('%Y-%m-%d')
-    if user_bank - price_at_buy > -1 :
+    new_balance = user_bank - price_at_buy
+    if new_balance> -1 :
         print('You can buy ',buy_quantity," shares")
-        add_stock_to_db(userID,date_today=current_day,company_ticker=organisation,shares=buy_quantity,buy_price=price_at_buy)
+        add_stock_to_db(userID,date_today=current_day,company_ticker=organisation,shares=buy_quantity,buy_price=price_at_buy, fresh_balance = new_balance )
     
     else:
         print("Can't buy")
@@ -130,7 +134,7 @@ def buy_stock(userID,userInput):
 
 
 
-#buy_stock(267402605318242304,"buy 3 shares in Google")
+buy_stock(267402605318242304,"buy 3 shares in Amazon Inc")
 
 """
 
