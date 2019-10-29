@@ -105,7 +105,7 @@ async def join(ctx):
 @client.command()
 async def buy(ctx,*,arg):
     if purchase.buy_stock(ctx.author.id,arg) == False:
-        await ctx.send("Sorry, you can't buy this stock!")
+        await ctx.send("Sorry, you can't buy this stock, you don't have enough money!")
     else:
         await ctx.send("Thanks for your purchase!")
         await ctx.send(gif.gif_response("empty wallet"))   
