@@ -18,13 +18,16 @@ import matplotlib.dates
 import analyse_text
 import graph
 
+from datetime import datetime
+
+
 cluster = MongoClient("mongodb+srv://masooda6:ilovemongodb123@cluster0-fkl2z.gcp.mongodb.net/test?retryWrites=true&w=majority")
 
 db = cluster["stockDB"]
 
 collection = db["users"]
 
-
+#Schema
 post = {
 "_id":5,
 "balance":5000,
@@ -73,43 +76,15 @@ def check_current_stock_price(ticker):
     
     return last_price
 
-"""
-    closing_list = []
-    dates = []
-
-    days_get = days
-    count = 0
-
-    for day in results['Time Series (Daily)']:
-        
-        if count == days_get:
-                break
-        dt = datetime.datetime.strptime(day, '%Y-%m-%d').strftime('%d/%m')
-        dates.append(dt)
-       # dates.append(day)
-        closing_list.append(float(results['Time Series (Daily)'][day]['4. close']))
-        
-        count += 1
-    dates.reverse()
-    closing_list.reverse()
-    return dates,closing_list
-
-
-"""
 
 
 
 
 
-
-
-
-
-
-def buy_stock(userInput):
+def buy_price(userInput):
     organisation , buy_quantity = analyse_text.process_text_buy(userInput)
     organisation = str(graph.company_name_converter(organisation))
-    print(organisation)
+   
 
     stock_price = float(check_current_stock_price(organisation))
     buy_quantity = int(buy_quantity)
@@ -117,13 +92,45 @@ def buy_stock(userInput):
 
     buy_price= stock_price * buy_quantity
 
+    return buy_price, organisation, buy_quantity
+    
+
+
+def get_user_balance(userID):
+    balance = collection.find({"_id":userID},{"balance":1})
+    
+    for money in balance:
+        balance =money["balance"]
+    return balance
+
+
+
+#print(get_user_balance(267402605318242304))
+
+def buy_stock(userID,userInput):
+
+    price_at_buy, organisation, buy_quantity = buy_price(userInput)
+
+    user_bank = get_user_balance(userID)
+    current_day =  datetime.today().strftime('%Y-%m-%d')
+    if user_bank - price_at_buy > -1 :
+        print('You can buy ',buy_quantity," shares")
+        add_stock_to_db(userID,date_today=current_day,company_ticker=organisation,shares=buy_quantity,buy_price=price_at_buy)
+    
+    else:
+        print("Can't buy")
+
+
+
+    
+    
    
     
 
 
 
 
-buy_stock("buy 5 shares in Apple Inc")
+#buy_stock(267402605318242304,"buy 3 shares in Google")
 
 """
 
