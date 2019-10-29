@@ -25,5 +25,5 @@ def get_portfolio(userID):
 
     for object in portfolio:
         new_portfolio = object["stocks"]
-        print(new_portfolio)
+        #print(new_portfolio)
     return new_portfolio

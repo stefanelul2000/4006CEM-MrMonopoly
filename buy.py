@@ -40,7 +40,7 @@ post = {
 def add_stock_to_db(userID,date_today,company_ticker,shares,buy_price,fresh_balance):
     collection.update_one(
         {"_id":userID},
-         {'$set':{"balance":fresh_balance,"stocks"+'.'+company_ticker:{date_today:{"price": buy_price,"shares": shares}}}},
+         {'$set':{"balance":fresh_balance,"stocks"+'.'+company_ticker +"."+ date_today:{date_today:{"price": buy_price,"shares": shares}}}},
           upsert = True
          
          )
