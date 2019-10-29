@@ -90,52 +90,17 @@ information_type(info_wanted,time_scale,days,company_name)
 
 def company_name_converter(company_name):
    company_name = company_name.lower() 
-   stockDict = {"apple":"AAPL","alphabet":"GOOGL","microsoft":"MSFT","amazon":"AMZN","facebook":"FB","google":"GOOGL"}
-   '''
-   stockDict = {"apple":"AAPL",
-                "alphabet":"GOOGL",
-                "microsoft":"MSFT",
-                "amazon":"AMZN",
-                "facebook":"FB",
-                "google":"GOOGL",
-                "3i group":"III",
-                "admiral group" : "ADM", 
-                "anglo american" : "AAL",
-                "antofagasta holdings": "ANTO",
-                "ashtead group":"AHT",
-                "associated british foods": "ABF",
-                "astrazeneca":"AZN",
-                "auto trader group": "AUTO",
-                "avena group":"AVV",
-                "aviva":"AV.",
-                "bae systems":"BA.",
-                "barclays":"BARC",
-                "barratt developments":"BDEV",
-                "berkeley group holdings":"BKG",
-                "bhp group":"BHP", 
-                "british american tobacco":"BATS",
-                "british land":"BLND",
-                "bt group":"BT.A",
-                "bunzl":"BNZL",
-                "burberry group":"BRBY",
-                "carnival":"CCL",
-                "centrica":"CNA",
-                "coca-cola":"CCH",
-                "compass group":"CPG",
-                "crh":"CRH",
-                "croda international":"CRDA",
-                "dcc":"DCC",
-                "diageo":"DGE",
-                "evraz":"EVR",
-                "experian":"EXPN",
-                "ferguson":"FERG",
-                "flutter entertainment":"FLTR",
-                "fresnillo":"FRES",
-                "glaxosmithkline":"GSK"
-}
-'''
+   #company_name = company_name.replace('inc', '')
+
+  # company_name = company_name.strip('inc')
+  # print(company_name)
+   stockDict = {"apple":"AAPL","alphabet":"GOOGL","microsoft":"MSFT","amazon":"AMZN","facebook":"FB","google":"GOOGL","apple inc":"AAPL", "amazon inc": "AMZN"}
+
    if company_name in stockDict:
        return stockDict[company_name]
+    
+   else:
+        print('not in dic')
 
 
 def generate_api_key():
@@ -266,6 +231,6 @@ def graphcompany(axis_x,axis_y,days,company_name):
 
 #information_type(info_wanted,time_scale,days,company_name)
 
-information_type(info_wanted = 'close',time_scale="week",days=5 ,company_name='google')
+#information_type(info_wanted = 'close',time_scale="week",days=5 ,company_name='google')
 
 #TODO Get Time period, E.g from 3 years ago to today
