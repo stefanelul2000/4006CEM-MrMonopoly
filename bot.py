@@ -110,6 +110,16 @@ async def buy(ctx,*,arg):
         await ctx.send("Thanks for your purchase!")
         await ctx.send(gif.gif_response("empty wallet"))   
 
+@client.command()
+async def balance(ctx):
+    wallet = db.get_user_balance(ctx.author.id)
+    await ctx.send(f'You current balance is {wallet} USD')
+
+@client.command()
+async def portfolio(ctx):
+    portfolio = db.get_portfolio(ctx.author.id)
+    await ctx.send(str(portfolio))
+
 @client.command(pass_context = True)
 async def clear(ctx, ammount=100):
     channel = ctx.message.channel
