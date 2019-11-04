@@ -117,8 +117,8 @@ async def balance(ctx):
 
 
 #View portfolio
-@client.command()
-async def portfolio(ctx):
+#@client.command()
+#async def portfolio(ctx):
     portfolio_dic = db.get_portfolio(ctx.author.id)
     temp_counter = 0
     #embed = discord.Embed(title="Title", description="Desc", color=0x00ff00)
@@ -127,7 +127,7 @@ async def portfolio(ctx):
     portfolio_embed = discord.Embed(title ="Portfolio", description = "Stocks you own", color = 0x00ff00)
 
 
-
+'''
     for stock_listing in portfolio_dic:
         for time_val in portfolio_dic[time_val]:
             
@@ -155,6 +155,30 @@ async def portfolio(ctx):
         
     await ctx.send(embed= portfolio_embed)
 #    await ctx.send(str(portfolio))
+'''
+
+@client.command()
+async def explain(ctx,term):
+    financial = ["stock", "finance", "globalisation", "balance", "budget"]
+    if term in financial:
+        embed = discord.Embed(title ="Term Explanation", description =f"We will now explain the term {term}.", color = 0x00ff00)
+        if term == "stock":
+            embed.add_field(name="Explanation of stock", value="A stock (also known as shares or equity) is a type of security that signifies proportionate ownership in the issuing corporation. This entitles the stockholder to that proportion of the corporation's assets and earnings.", inline=False)
+        elif term == "finance":
+            embed.add_field(name="Explanation of finance", value="Finance is a term broadly describing the study and system of money, investments, and other financial instruments. Some authorities prefer to divide finance into three distinct categories: public finance, corporate finance, and personal finance. Other categories include the recently emerging area of social finance and behavioral finance, which seeks to identify the cognitive (e.g., emotional, social, and psychological) reasons behind financial decisions.", inline=False)
+        elif term == "globalisation":
+            embed.add_field(name="Explanation of globalisation", value="Globalization is the spread of products, technology, information, and jobs across national borders and cultures. In economic terms, it describes an interdependence of nations around the globe fostered through free trade.", inline=False)
+        elif term == "balance":
+            embed.add_field(name="Explanation of balance", value="An account balance is the amount of money present in a financial repository, such as a savings or checking account, at any given moment. The account balance is always the net amount after factoring in all debits and credits. An account balance that falls below zero represents a net debt—for example, when there is an overdraft on a checking account.", inline=False)
+        elif term == "budget":
+            embed.add_field(name="Explanation of budget", value="A budget is an estimation of revenue and expenses over a specified future period of time and is usually compiled and re-evaluated on a periodic basis. Budgets can be made for a person, a family, a group of people, a business, a government, a country, a multinational organization or just about anything else that makes and spends money. At companies and organizations, a budget is an internal tool used by management and is often not required for reporting by external parties.", inline=False)     
+        await ctx.send(embed=embed)
+
+    else:
+        response = "Term not pressent in the dictionary"
+        await ctx.send(embed=response)
+
+
 
 @client.command(pass_context = True)
 async def clear(ctx, ammount=100):
