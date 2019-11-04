@@ -1,14 +1,20 @@
 #Display portfolio
 #pip install pymongo
 
+
 import pymongo
 from pymongo import MongoClient
 import requests
 import datetime
 from alpha_vantage.timeseries import TimeSeries as ts
 from alpha_vantage.techindicators import TechIndicators
+from matplotlib.pyplot import figure
+import matplotlib.pyplot as plt
 import random
 import os
+import analyse_text
+import numpy as np
+import matplotlib.dates 
 import analyse_text
 import graph
 
@@ -26,7 +32,9 @@ post = {
 "_id":5,
 "balance":5000,
 "stocks":{
-    "appl":{},
+    "appl":{
+        "2017-10-1":{"price":200,"shares":10}
+    },
     "googl":{
         "2019-10-1":{"price":1023,"shares":3},
         "2019-9-23":{"price":2000,"shares":2},
@@ -40,13 +48,14 @@ post = {
 def add_stock_to_db(userID,date_today,company_ticker,shares,buy_price,fresh_balance):
     collection.update_one(
         {"_id":userID},
-         {'$set':{"balance":fresh_balance,"stocks"+'.'+company_ticker +"."+ date_today:{date_today:{"price": buy_price,"shares": shares}}}},
+         {'$set':{"balance":fresh_balance,"stocks"+'.'+company_ticker:{date_today:{"price": buy_price,"shares": shares}}}},
           upsert = True
          
          )
 
 
-#add_stock_to_db(userID=267402605318242304 , date_today="2020-12-321", company_ticker='appl',shares= 108 , buy_price= 10000)
+#add_stock_to_db(userID=174900436363509761 , date_today="2018-10-4", company_ticker='appl',shares= 14 , buy_price= 453, fresh_balance=5000)
+
 
 
 def check_current_stock_price(ticker):
@@ -117,7 +126,6 @@ def buy_stock(userID,userInput):
     
     else:
         print("Can't buy")
-        return False
 
 
 
