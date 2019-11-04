@@ -130,16 +130,17 @@ async def portfolio(ctx):
 
     for stock_listing in portfolio_dic:
         for time_val in portfolio_dic[time_val]:
-            
 
-        paragraph =f"""
+            share_price = portfolio_dic[stock_listing][]
 
-            Date:{time_val}
+             paragraph =f"""
 
-                Price:{share_price}
+                        Date:{time_val}
 
-                Shares:{number_of_shares}
-         """
+                            Price:{share_price}
+
+                            Shares:{number_of_shares}
+                    """
 
     """
     for stock_listing in portfolio_dic:
