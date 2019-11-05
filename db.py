@@ -29,3 +29,11 @@ def get_portfolio(userID):
     return new_portfolio
 
     
+def get_user_share_amount(userID,organisation):
+    share_user_has = collection.find({"_id":userID},{organisation+'.'+"total_shares":1})
+
+    # for object in share_user_has:
+        # new_grab_shares = 
+
+    print(share_user_has)
+    return share_user_has
