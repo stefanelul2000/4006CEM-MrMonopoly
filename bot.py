@@ -25,7 +25,6 @@ client = discord.Client()
 bot_prefix = "$"
 client = commands.Bot(command_prefix=bot_prefix)
 
-
 @client.event
 async def on_ready():
     print(f'{client.user.name} has connected to Discord!')
@@ -48,7 +47,6 @@ async def on_member_join(member):
         if str(channel.name) == "welcome":
             await channel.send(f"""Welcome to the server {member.mention}""")
             await channel.send(gif.gif_response('welcome'))
-
 
 @client.event
 async def on_message(message):
@@ -115,10 +113,9 @@ async def balance(ctx):
     wallet = db.get_user_balance(ctx.author.id)
     await ctx.send(f'You current balance is {wallet} USD')
 
-
 #View portfolio
-@client.command()
-async def portfolio(ctx):
+#@client.command()
+#async def portfolio(ctx):
     portfolio_dic = db.get_portfolio(ctx.author.id)
     temp_counter = 0
     #embed = discord.Embed(title="Title", description="Desc", color=0x00ff00)
@@ -127,7 +124,7 @@ async def portfolio(ctx):
     portfolio_embed = discord.Embed(title ="Portfolio", description = "==============Stocks you own==============", color = 0x00ff00)
 
 
-
+'''
     for stock_listing in portfolio_dic:
         information_listing = "                  "
 
@@ -177,15 +174,48 @@ async def portfolio(ctx):
         
     await ctx.send(embed= portfolio_embed)
 #    await ctx.send(str(portfolio))
+'''
 
 
+@client.command()
+async def explain(ctx,term=None):
+    financial = ["stock", "finance", "globalisation", "balance", "budget", "share", "equity"]
+    if term == None:
+        embed = discord.Embed(title ="Mr. Monopoly Help Menu", color = 0x9900FF)
+        embed.add_field(name="How you should use the explain function.", value="Syntax: ```$explain <term>```")
+        await ctx.send(embed=embed)
+    elif term == "all":
+        embed = discord.Embed(title ="Mr. Monopoly Explain Everything", color = 0x00ff00)
+        embed.add_field(name="Explanation of stock", value="A stock (also known as shares or equity) is a type of security that signifies proportionate ownership in the issuing corporation. This entitles the stockholder to that proportion of the corporation's assets and earnings.", inline=False)
+        embed.add_field(name="Explanation of finance", value="Finance is a term broadly describing the study and system of money, investments, and other financial instruments. Some authorities prefer to divide finance into three distinct categories: public finance, corporate finance, and personal finance. Other categories include the recently emerging area of social finance and behavioral finance, which seeks to identify the cognitive (e.g., emotional, social, and psychological) reasons behind financial decisions.", inline=False)
+        embed.add_field(name="Explanation of globalisation", value="Globalization is the spread of products, technology, information, and jobs across national borders and cultures. In economic terms, it describes an interdependence of nations around the globe fostered through free trade.", inline=False)
+        embed.add_field(name="Explanation of balance", value="An account balance is the amount of money present in a financial repository, such as a savings or checking account, at any given moment. The account balance is always the net amount after factoring in all debits and credits. An account balance that falls below zero represents a net debt—for example, when there is an overdraft on a checking account.", inline=False)
+        embed.add_field(name="Explanation of budget", value="A budget is an estimation of revenue and expenses over a specified future period of time and is usually compiled and re-evaluated on a periodic basis. Budgets can be made for a person, a family, a group of people, a business, a government, a country, a multinational organization or just about anything else that makes and spends money. At companies and organizations, a budget is an internal tool used by management and is often not required for reporting by external parties.", inline=False)     
+        await ctx.send(embed=embed)
+    elif term in financial:
+        embed = discord.Embed(color = 0x00ff00)
+        if term == "stock" or "share" or "equity":
+            embed.add_field(name="Explanation of stock", value="A stock (also known as shares or equity) is a type of security that signifies proportionate ownership in the issuing corporation. This entitles the stockholder to that proportion of the corporation's assets and earnings.", inline=False)
+        elif term == "finance":
+            embed.add_field(name="Explanation of finance", value="Finance is a term broadly describing the study and system of money, investments, and other financial instruments. Some authorities prefer to divide finance into three distinct categories: public finance, corporate finance, and personal finance. Other categories include the recently emerging area of social finance and behavioral finance, which seeks to identify the cognitive (e.g., emotional, social, and psychological) reasons behind financial decisions.", inline=False)
+        elif term == "globalisation":
+            embed.add_field(name="Explanation of globalisation", value="Globalization is the spread of products, technology, information, and jobs across national borders and cultures. In economic terms, it describes an interdependence of nations around the globe fostered through free trade.", inline=False)
+        elif term == "balance":
+            embed.add_field(name="Explanation of balance", value="An account balance is the amount of money present in a financial repository, such as a savings or checking account, at any given moment. The account balance is always the net amount after factoring in all debits and credits. An account balance that falls below zero represents a net debt—for example, when there is an overdraft on a checking account.", inline=False)
+        elif term == "budget":
+            embed.add_field(name="Explanation of budget", value="A budget is an estimation of revenue and expenses over a specified future period of time and is usually compiled and re-evaluated on a periodic basis. Budgets can be made for a person, a family, a group of people, a business, a government, a country, a multinational organization or just about anything else that makes and spends money. At companies and organizations, a budget is an internal tool used by management and is often not required for reporting by external parties.", inline=False)     
+        await ctx.send(embed=embed)
 
+    else:
+        await ctx.send("Term not present in the dictionary")
 
+@client.command()
 
-
-@client.command(pass_context = True)
 async def clear(ctx, ammount=100):
     channel = ctx.message.channel
-    await channel.purge(limit=ammount,check=None,bulk=True)
+    if ctx.message.author.guild_permissions.administrator:
+        await channel.purge(limit=ammount,check=None,bulk=True)
+    else:
+        await ctx.send("You can't use that command, you are not an administrator!")
 
 client.run(token)
