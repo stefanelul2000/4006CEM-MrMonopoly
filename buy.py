@@ -46,6 +46,9 @@ post = {
 
 
 def add_stock_to_db(userID,date_today,company_ticker,shares,buy_price,fresh_balance):
+
+    shares = int(shares)
+    total_shares = "total_shares"
     current_time_hms = datetime.now()
 
     current_time_hms = current_time_hms.strftime("%H:%M:%S")
@@ -57,6 +60,14 @@ def add_stock_to_db(userID,date_today,company_ticker,shares,buy_price,fresh_bala
           upsert = True
          
          )
+
+    # collection.update_one(
+    #     {'$and':[{"_id":userID},{"stocks":{company_ticker:{}}}]},
+    #      {'$inc':{"total_shares":shares}}
+    #      )
+
+
+
 
 
 #add_stock_to_db(userID=174900436363509761 , date_today="2018-10-4", company_ticker='appl',shares= 14 , buy_price= 453, fresh_balance=5000)
