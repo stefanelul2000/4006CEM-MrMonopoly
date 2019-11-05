@@ -60,7 +60,10 @@ def add_stock_to_db(userID,date_today,company_ticker,shares,buy_price,fresh_bala
           upsert = True
          
          )
-
+    collection.update_one(
+        {"_id":userID},
+         {'$inc':{"stocks"+'.'+company_ticker+'.'+"total_shares":shares}}
+         )
     # collection.update_one(
     #     {'$and':[{"_id":userID},{"stocks":{company_ticker:{}}}]},
     #      {'$inc':{"total_shares":shares}}
