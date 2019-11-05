@@ -121,38 +121,61 @@ async def balance(ctx):
     #embed = discord.Embed(title="Title", description="Desc", color=0x00ff00)
     #embed.add_field(name="Field1", value="hi", inline=False)
     #embed.add_field(name="Field2", value="hi2", inline=False)
-    portfolio_embed = discord.Embed(title ="Portfolio", description = "Stocks you own", color = 0x00ff00)
+    portfolio_embed = discord.Embed(title ="Portfolio", description = "==============Stocks you own==============", color = 0x00ff00)
 
 
 '''
     for stock_listing in portfolio_dic:
-        for time_val in portfolio_dic[time_val]:
-            
+        information_listing = "                  "
 
-        paragraph =f"""
-
-            Date:{time_val}
-
-                Price:{share_price}
-
-                Shares:{number_of_shares}
-         """
-
-    """
-    for stock_listing in portfolio_dic:
-        portfolio_embed.add_field(name = stock_listing,value="" )
         for time_val in portfolio_dic[stock_listing]:
-            #share_list = "    " + str( portfolio_dic[stock_listing][time_val]) 
-            portfolio_embed.add_field(name = portfolio_dic[stock_listing] ,value= portfolio_dic[stock_listing][time_val], inline = True  )
+            information_listing += '----------Date: '+time_val+'----------'+'\n'
 
-            print(time_val)
+            for hms_val in portfolio_dic[stock_listing][time_val]:
+                information_listing += '⏰Time: '+hms_val+'\n\t\t'
+
+                 #to_pad = 10
+               #  f'{strng: <{to_pad}}'
+                information_listing += "💰==============>"+ "  Price: "+ str(portfolio_dic[stock_listing][time_val][hms_val]['price'])+'\n\t\t\t'
+
+                information_listing+="  🧮==============>"+ "   Shares: "+ str(portfolio_dic[stock_listing][time_val][hms_val]['shares'])+'\n\t\t\t'
+        
+        portfolio_embed.add_field(name=stock_listing, value=information_listing, inline= False)
+
+
+    
+    
+
+        # for time_val in portfolio_dic[stock_listing]:
+        #     for hms_val in portfolio_dic[stock_listing][time_val]:
+
+        #     share_price = portfolio_dic[stock_listing][hms_val]
+
+        # paragraph =f"""
+
+        #                 Date:{time_val}
+
+        #                     Time:{hms_val}
+
+        #                         Price:{share_price}
+
+        #                         Shares:{number_of_shares}
+                    
+    # for stock_listing in portfolio_dic:
+    #     portfolio_embed.add_field(name = stock_listing,value="" )
+    #     for time_val in portfolio_dic[stock_listing]:
+    #         #share_list = "    " + str( portfolio_dic[stock_listing][time_val]) 
+    #         portfolio_embed.add_field(name = portfolio_dic[stock_listing] ,value= portfolio_dic[stock_listing][time_val], inline = True  )
+
+    #         print(time_val)
         #print(str(stock_listing[time_val]))     
          #  portfolio_embed.add_field(name = "" ,value=  str(stock_listing[time_val]))
-    """
+    
         
     await ctx.send(embed= portfolio_embed)
 #    await ctx.send(str(portfolio))
 '''
+
 
 @client.command()
 async def explain(ctx,term=None):
@@ -187,6 +210,7 @@ async def explain(ctx,term=None):
         await ctx.send("Term not present in the dictionary")
 
 @client.command()
+
 async def clear(ctx, ammount=100):
     channel = ctx.message.channel
     if ctx.message.author.guild_permissions.administrator:
