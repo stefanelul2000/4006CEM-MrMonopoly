@@ -114,8 +114,8 @@ async def balance(ctx):
     await ctx.send(f'You current balance is {wallet} USD')
 
 #View portfolio
-#@client.command()
-#async def portfolio(ctx):
+@client.command()
+async def portfolio(ctx):
     portfolio_dic = db.get_portfolio(ctx.author.id)
     temp_counter = 0
     #embed = discord.Embed(title="Title", description="Desc", color=0x00ff00)
@@ -124,12 +124,28 @@ async def balance(ctx):
     portfolio_embed = discord.Embed(title ="Portfolio", description = "==============Stocks you own==============", color = 0x00ff00)
 
 
-'''
+
     for stock_listing in portfolio_dic:
         information_listing = "                  "
 
+        for v in portfolio_dic[stock_listing].keys():
+
+            print(v)
+
+            if v== "total_shares":
+                shares_have = v
+
+                removed_val = portfolio_dic[stock_listing].pop("total_shares")
+                break
+                #del v["total_shares"]
+
+
+
+           # del v["total_shares"]
+        
         for time_val in portfolio_dic[stock_listing]:
             information_listing += '----------Date: '+time_val+'----------'+'\n'
+            
 
             for hms_val in portfolio_dic[stock_listing][time_val]:
                 information_listing += '⏰Time: '+hms_val+'\n\t\t'
@@ -174,7 +190,7 @@ async def balance(ctx):
         
     await ctx.send(embed= portfolio_embed)
 #    await ctx.send(str(portfolio))
-'''
+
 
 
 @client.command()
