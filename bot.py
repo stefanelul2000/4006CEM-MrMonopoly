@@ -133,7 +133,7 @@ async def portfolio(ctx):
             print(v)
 
             if v== "total_shares":
-                shares_have = v
+                shares_have =  portfolio_dic[stock_listing]["total_shares"]
 
                 removed_val = portfolio_dic[stock_listing].pop("total_shares")
                 break
@@ -144,17 +144,19 @@ async def portfolio(ctx):
            # del v["total_shares"]
         
         for time_val in portfolio_dic[stock_listing]:
+           
+            information_listing += 'Total Shares:'+str(shares_have) +'\n'
             information_listing += '----------Date: '+time_val+'----------'+'\n'
             
 
             for hms_val in portfolio_dic[stock_listing][time_val]:
-                information_listing += '⏰Time: '+hms_val+'\n\t\t'
+                information_listing += 'Time: '+hms_val+'\n\t\t'
 
                  #to_pad = 10
                #  f'{strng: <{to_pad}}'
-                information_listing += "💰==============>"+ "  Price: "+ str(portfolio_dic[stock_listing][time_val][hms_val]['price'])+'\n\t\t\t'
+                information_listing += "===============>"+ "  Price: "+ str(portfolio_dic[stock_listing][time_val][hms_val]['price'])+'\n\t\t\t'
 
-                information_listing+="  🧮==============>"+ "   Shares: "+ str(portfolio_dic[stock_listing][time_val][hms_val]['shares'])+'\n\t\t\t'
+                information_listing+="  ===============>"+ "   Shares: "+ str(portfolio_dic[stock_listing][time_val][hms_val]['shares'])+'\n\t\t\t'
         
         portfolio_embed.add_field(name=stock_listing, value=information_listing, inline= False)
 
