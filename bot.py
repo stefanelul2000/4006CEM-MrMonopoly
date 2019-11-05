@@ -17,6 +17,8 @@ import gif
 import graph
 import analyse_text
 import buy as purchase
+import sell as selling
+
 
 load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
@@ -107,6 +109,15 @@ async def buy(ctx,*,arg):
     else:
         await ctx.send("Thanks for your purchase!")
         await ctx.send(gif.gif_response("empty wallet"))   
+
+@client.command()
+async def sell(ctx,*,arg):
+    if selling.sell_stock(ctx.author.id,arg) == False:
+        await ctx.send("Sorry, you can't sell this stock")
+    else:
+        await ctx.send("You have sold your stock(s)")
+        await ctx.send(gif.gif_response("money"))  
+
 
 @client.command()
 async def balance(ctx):

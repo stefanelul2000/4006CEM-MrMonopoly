@@ -9,7 +9,16 @@ import os
 import analyse_text
 import graph
 from datetime import datetime
-import db
+import db as databaseOwn
+import buy
+
+
+
+cluster = MongoClient("mongodb+srv://masooda6:ilovemongodb123@cluster0-fkl2z.gcp.mongodb.net/test?retryWrites=true&w=majority")
+
+db = cluster["stockDB"]
+
+collection = db["users"]
 
 def check_current_stock_price(ticker):
     API_KEY = graph.generate_api_key()
@@ -31,6 +40,28 @@ def check_current_stock_price(ticker):
 
     return last_price
 
+
+def add_balance_to_db(userID,date_today,company_ticker,shares,buy_price,fresh_balance):
+
+    shares = int(shares)
+    total_shares = "total_shares"
+    current_time_hms = datetime.now()
+
+    current_time_hms = current_time_hms.strftime("%H:%M:%S")
+
+
+    collection.update_one(
+        {"_id":userID},
+         {'$set':{"balance":fresh_balance,"stocks"+'.'+company_ticker +"."+ date_today+"."+current_time_hms:{"price": buy_price,"shares": shares}}},
+          upsert = True
+         
+         )
+
+    collection.update_one(
+        {"_id":userID},
+         {'$inc':{"stocks"+'.'+company_ticker+'.'+"total_shares":shares}}
+         )
+
 def get_user_balance(userID):
     balance = collection.find({"_id":userID},{"balance":1})
     
@@ -38,7 +69,7 @@ def get_user_balance(userID):
         balance =money["balance"]
     return balance
 
-def update_balance(userID):
+def update_balance(userID,sell_price):
     
     new_balance = get_user_balance(userID) + sell_price
     
@@ -59,10 +90,14 @@ def update_balance(userID):
 
 def sell_price(userInput):
 
-    selling_quantity , organisation = analyse_text.process_text_buy(userInput)
+    organisation, selling_quantity  = analyse_text.process_text_buy(userInput)
+    print('sell org before ticker', organisation)
     organisation = str(graph.company_name_converter(organisation))
+    print('sell org', organisation)
 
-    stock_price = float(check_current_stock_price(orsganisation))
+    # stock_price = float(check_current_stock_price(organisation))
+
+    stock_price = float(buy.check_current_stock_price(organisation))
     selling_quantity = int(selling_quantity)
     
     selling_price= stock_price * selling_quantity
@@ -72,12 +107,24 @@ def sell_price(userInput):
 def sell_stock(userID,userInput):
     price_at_sell, organisation, sell_quantity = sell_price(userInput)
 
-    current_day =  datetime.today().strftime('%Y-%m-%d')
-    new_balance = update_balance(userID)
+    shares_in_port = databaseOwn.get_user_share_amount(userID,organisation)
+
+    print('price at sell',price_at_sell)
+
+
+
+
     
-    if sell_quantity>0:
+    
+    if sell_quantity<=shares_in_port:
         print('You sold ',sell_quantity," shares")
-        extract_stock()
+        current_day =  datetime.today().strftime('%Y-%m-%d')
+        new_balance = update_balance(userID,price_at_sell)
+        current_day =  datetime.today().strftime('%Y-%m-%d')
+        sell_quantity =-sell_quantity
+        add_balance_to_db(userID,current_day,organisation,sell_quantity,price_at_sell,new_balance)
+        return True
+        #extract_stock()
         
     else:
         print('Sorry, you cannot sell that ammount')

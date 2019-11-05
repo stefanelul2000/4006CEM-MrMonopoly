@@ -30,10 +30,32 @@ def get_portfolio(userID):
 
     
 def get_user_share_amount(userID,organisation):
-    share_user_has = collection.find({"_id":userID},{organisation+'.'+"total_shares":1})
+    # share_user_has = collection.find({"_id":userID},{organisation:{"total_shares":1}})
+
 
     # for object in share_user_has:
-        # new_grab_shares = 
 
-    print(share_user_has)
-    return share_user_has
+    #     print('print object:',object)
+    #     new_share = object["total_shares"]
+    # # for object in share_user_has:
+    #     # new_grab_shares = 
+
+    # print(new_share)
+
+
+    portfolio_dic = get_portfolio(userID)
+    
+
+    for stock_listing in portfolio_dic:
+    
+        for v in portfolio_dic[stock_listing].keys():
+
+            print(v)
+
+            if v== "total_shares":
+                shares_have =  portfolio_dic[organisation]["total_shares"]
+
+              #  removed_val = portfolio_dic[stock_listing].pop("total_shares")
+                break
+
+    return shares_have
