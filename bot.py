@@ -5,11 +5,8 @@ import os
 import random
 import discord
 from discord.ext import commands
-from discord.ext.commands import Bot
 from dotenv import load_dotenv
 import asyncio
-import datetime
-import time
 
 #Import python external files
 import db
@@ -27,18 +24,17 @@ client = discord.Client()
 bot_prefix = "$"
 client = commands.Bot(command_prefix=bot_prefix)
 
-@client.event
+@client.event #Prints when bot has successfullly connected to Discord
 async def on_ready():
     print(f'{client.user.name} has connected to Discord!')
     print(f'ID: {client.user.id}')
     activity = discord.Game(name="with stocks")
     await client.change_presence(status=discord.Status.online, activity=activity)
 
-@client.event
+@client.event #Welcomes user when joining the server
 async def on_member_join(member):
     greetings=["I've been expecting you"]
     role= discord.utils.get(member.guild.roles, name="Users")
-    channels = ["bot"]
     dm = await member.create_dm()
 
     await member.add_roles(role)
@@ -52,22 +48,20 @@ async def on_member_join(member):
 
 @client.event
 async def on_message(message):
-    id = client.get_guild(484842929865883648)
+    guild_id = client.get_guild(484842929865883648)
     channel = client.get_channel(635976394836279297)
     channels = ["bot"]
     greetings=['where have you been',"I've been expecting you",'how can I help you today']
     thanks=["Happy to help","No worries"]
     bad_words = ["fuck", "Fuck", "dick","Dick"]
-    
-
     if str(message.channel) in channels:
         if message.content.find("!hello") != -1:
             await message.channel.send(f"Hi there {message.author.name}, {random.choice(greetings)} !") 
             await message.channel.send(gif.gif_response('hello'))
         elif message.content == "!users":
-            await message.channel.send(f"""This server has {id.member_count} member(s)!""")
+            await message.channel.send(f"""This server has {guild_id.member_count} member(s)!""")
         elif message.content == (f"{client.user} How many Members does the server have?"):
-            await message.channel.send(f"""This server has {id.member_count} member(s)!""")
+            await message.channel.send(f"""This server has {guild_id.member_count} member(s)!""")
         elif message.content == "!thanks":
             await message.channel.send(f"{random.choice(thanks)} {message.author.name}")
             await message.channel.send(gif.gif_response('thanks'))         
@@ -75,9 +69,24 @@ async def on_message(message):
         if message.content.count(word) > 0:
             await message.channel.purge(limit=1)
             await message.channel.send("Words like this are not permited in this server!")
-    await client.process_commands(message)  
+    await client.process_commands(message)
 
-@client.command()
+@client.command() #Function to join the stock market 
+async def join(ctx):
+    ajoined = db.member_already_joined(ctx.author.id)
+    post = {"_id":ctx.author.id,"name":ctx.author.name,"balance":5000}
+    if ctx.author.id == ajoined:
+        await ctx.send("You can't join the stock market more than one time!")
+    else:  
+        db.member_join(post)
+        await ctx.send(f'{ctx.author.mention} you have now joined the stock market!')
+        await ctx.send("Here are 5000 USD to start, enjoy!")
+        await ctx.send(gif.gif_response("throwing money"))
+
+ 
+ @client.command()
+
+@client.command() #Function to ask for a graph to show stock history 
 async def ask(ctx,*,arg):
     await ctx.send("Working on it...")
     channel = ctx.message.channel
@@ -89,20 +98,8 @@ async def ask(ctx,*,arg):
     await ctx.send(f"Here you go {ctx.author.mention}, showing you {myOrganisation} stock.")
     await asyncio.sleep(1)
     await ctx.send(gif.gif_response('looks expensive'))
-
-@client.command()
-async def join(ctx):
-    ajoined = db.member_already_joined(ctx.author.id)
-    post = {"_id":ctx.author.id,"name":ctx.author.name,"balance":5000}
-    if ctx.author.id == ajoined:
-        await ctx.send("You can't join the stock market more than one time!")
-    else:  
-        db.member_join(post)
-        await ctx.send(f'{ctx.author.mention} you have now joined the stock market!')
-        await ctx.send("Here are 5000 USD to start, enjoy!")
-        await ctx.send(gif.gif_response("throwing money"))
     
-@client.command()
+@client.command() #Function to buy shares from stock market
 async def buy(ctx,*,arg):
     if purchase.buy_stock(ctx.author.id,arg) == False:
         await ctx.send("Sorry, you can't buy this stock, you don't have enough money!")
@@ -110,7 +107,7 @@ async def buy(ctx,*,arg):
         await ctx.send("Thanks for your purchase!")
         await ctx.send(gif.gif_response("empty wallet"))   
 
-@client.command()
+@client.command() #Function to sell shares from curent owned ones
 async def sell(ctx,*,arg):
     if selling.sell_stock(ctx.author.id,arg) == False:
         await ctx.send("Sorry, you can't sell this stock")
@@ -118,20 +115,15 @@ async def sell(ctx,*,arg):
         await ctx.send("You have sold your stock(s)")
         await ctx.send(gif.gif_response("money"))  
 
-
-@client.command()
+@client.command() #Shows the balance the user has
 async def balance(ctx):
     wallet = db.get_user_balance(ctx.author.id)
     await ctx.send(f'You current balance is {wallet} USD')
 
-#View portfolio
-@client.command()
+@client.command() #View portfolio
 async def portfolio(ctx):
     portfolio_dic = db.get_portfolio(ctx.author.id)
     temp_counter = 0
-    #embed = discord.Embed(title="Title", description="Desc", color=0x00ff00)
-    #embed.add_field(name="Field1", value="hi", inline=False)
-    #embed.add_field(name="Field2", value="hi2", inline=False)
     portfolio_embed = discord.Embed(title ="Portfolio", description = "==============Stocks you own==============", color = 0x00ff00)
 
 
@@ -148,12 +140,7 @@ async def portfolio(ctx):
 
                 removed_val = portfolio_dic[stock_listing].pop("total_shares")
                 break
-                #del v["total_shares"]
 
-
-
-           # del v["total_shares"]
-        
         for time_val in portfolio_dic[stock_listing]:
            
             information_listing += 'Total Shares:'+str(shares_have) +'\n'
@@ -162,51 +149,13 @@ async def portfolio(ctx):
 
             for hms_val in portfolio_dic[stock_listing][time_val]:
                 information_listing += 'Time: '+hms_val+'\n\t\t'
-
-                 #to_pad = 10
-               #  f'{strng: <{to_pad}}'
                 information_listing += "===============>"+ "  Price: "+ str(portfolio_dic[stock_listing][time_val][hms_val]['price'])+'\n\t\t\t'
-
                 information_listing+="  ===============>"+ "   Shares: "+ str(portfolio_dic[stock_listing][time_val][hms_val]['shares'])+'\n\t\t\t'
         
-        portfolio_embed.add_field(name=stock_listing, value=information_listing, inline= False)
-
-
-    
-    
-
-        # for time_val in portfolio_dic[stock_listing]:
-        #     for hms_val in portfolio_dic[stock_listing][time_val]:
-
-        #     share_price = portfolio_dic[stock_listing][hms_val]
-
-        # paragraph =f"""
-
-        #                 Date:{time_val}
-
-        #                     Time:{hms_val}
-
-        #                         Price:{share_price}
-
-        #                         Shares:{number_of_shares}
-                    
-    # for stock_listing in portfolio_dic:
-    #     portfolio_embed.add_field(name = stock_listing,value="" )
-    #     for time_val in portfolio_dic[stock_listing]:
-    #         #share_list = "    " + str( portfolio_dic[stock_listing][time_val]) 
-    #         portfolio_embed.add_field(name = portfolio_dic[stock_listing] ,value= portfolio_dic[stock_listing][time_val], inline = True  )
-
-    #         print(time_val)
-        #print(str(stock_listing[time_val]))     
-         #  portfolio_embed.add_field(name = "" ,value=  str(stock_listing[time_val]))
-    
-        
+        portfolio_embed.add_field(name=stock_listing, value=information_listing, inline= False) 
     await ctx.send(embed= portfolio_embed)
-#    await ctx.send(str(portfolio))
 
-
-
-@client.command()
+@client.command() #Explain financial terms
 async def explain(ctx,term=None):
     financial = ["stock", "finance", "globalisation", "balance", "budget", "share", "equity"]
     if term == None:
@@ -238,8 +187,7 @@ async def explain(ctx,term=None):
     else:
         await ctx.send("Term not present in the dictionary")
 
-@client.command()
-
+@client.command() #Clear (purge) messages from channel (can only be used by users with administrator permissions)
 async def clear(ctx, ammount=100):
     channel = ctx.message.channel
     if ctx.message.author.guild_permissions.administrator:
