@@ -83,9 +83,6 @@ async def join(ctx):
         await ctx.send("Here are 5000 USD to start, enjoy!")
         await ctx.send(gif.gif_response("throwing money"))
 
- 
- @client.command()
-
 @client.command() #Function to ask for a graph to show stock history 
 async def ask(ctx,*,arg):
     await ctx.send("Working on it...")
