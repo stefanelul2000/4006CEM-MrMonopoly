@@ -2,11 +2,8 @@ import os
 import random
 import giphy_client
 from giphy_client.rest import ApiException
-from dotenv import load_dotenv
 
-load_dotenv()
-giphy_token= os.getenv('GIPHY_TOKEN')
-
+giphy_token= os.environ.get('GIPHY_TOKEN')
 api_instance = giphy_client.DefaultApi() #Giphy API
 
 def search_gifs(query):

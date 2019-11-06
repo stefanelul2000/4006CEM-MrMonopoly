@@ -5,7 +5,6 @@ import os
 import random
 import discord
 from discord.ext import commands
-from dotenv import load_dotenv
 import asyncio
 
 #Import python external files
@@ -17,9 +16,7 @@ import buy as purchase
 import sell as selling
 
 
-load_dotenv()
-token = os.getenv('DISCORD_TOKEN')
-
+token = os.environ.get('DISCORD_TOKEN')
 client = discord.Client()
 bot_prefix = "$"
 client = commands.Bot(command_prefix=bot_prefix)
@@ -49,7 +46,6 @@ async def on_member_join(member):
 @client.event
 async def on_message(message):
     guild_id = client.get_guild(484842929865883648)
-    channel = client.get_channel(635976394836279297)
     channels = ["bot"]
     greetings=['where have you been',"I've been expecting you",'how can I help you today']
     thanks=["Happy to help","No worries"]
@@ -102,7 +98,7 @@ async def buy(ctx,*,arg):
         await ctx.send("Sorry, you can't buy this stock, you don't have enough money!")
     else:
         await ctx.send("Thanks for your purchase!")
-        await ctx.send(gif.gif_response("empty wallet"))   
+        await ctx.send(gif.gif_response("empty wallet"))
 
 @client.command() #Function to sell shares from curent owned ones
 async def sell(ctx,*,arg):
@@ -110,8 +106,8 @@ async def sell(ctx,*,arg):
         await ctx.send("Sorry, you can't sell this stock")
     else:
         await ctx.send("You have sold your stock(s)")
-        await ctx.send(gif.gif_response("money"))  
-
+        await ctx.send(gif.gif_response("money"))
+        
 @client.command() #Shows the balance the user has
 async def balance(ctx):
     wallet = db.get_user_balance(ctx.author.id)
