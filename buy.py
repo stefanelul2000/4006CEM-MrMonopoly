@@ -20,8 +20,10 @@ import graph
 
 from datetime import datetime
 
+db_user = os.environ.get('db_user')
+db_pass = os.environ.get('db_pass')
 
-cluster = MongoClient("mongodb+srv://masooda6:ilovemongodb123@cluster0-fkl2z.gcp.mongodb.net/test?retryWrites=true&w=majority")
+cluster = MongoClient(f"mongodb+srv://{db_user}:{db_pass}@cluster0-fkl2z.gcp.mongodb.net/test?retryWrites=true&w=majority")
 
 db = cluster["stockDB"]
 

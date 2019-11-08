@@ -1,7 +1,11 @@
 import pymongo
 from pymongo import MongoClient
+import os
 
-cluster = MongoClient("mongodb+srv://discord:pydiscord@cluster0-fkl2z.gcp.mongodb.net/test?retryWrites=true&w=majority")
+db_user = os.environ.get('db_user')
+db_pass = os.environ.get('db_pass')
+
+cluster = MongoClient(f"mongodb+srv://{db_user}:{db_pass}@cluster0-fkl2z.gcp.mongodb.net/test?retryWrites=true&w=majority")
 db = cluster['stockDB']
 collection = db["users"]
 
