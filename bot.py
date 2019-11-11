@@ -14,6 +14,8 @@ import graph
 import analyse_text
 import buy as purchase
 import sell as selling
+#from custom_ML.query_model import *
+from custom_ML.query_model import categorise_sentence as model_query
 
 
 token = os.environ.get('DISCORD_TOKEN')
@@ -187,5 +189,14 @@ async def clear(ctx, ammount=100):
         await channel.purge(limit=ammount,check=None,bulk=True)
     else:
         await ctx.send("You can't use that command, you are not an administrator!")
+
+
+
+@client.command() 
+async def predict(ctx,*,arg):
+    prediction = model_query.evaluate_model(arg)
+    await ctx.send(prediction)
+
+
 
 client.run(token)
