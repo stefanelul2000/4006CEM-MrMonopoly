@@ -4,9 +4,8 @@ nltk.download('punkt')
 from nltk.stem.lancaster import LancasterStemmer
 stemmer = LancasterStemmer()
 
-import numpy as np 
-import tensorflow as tf
-import random
+import numpy as np #Library to store data for machine learning
+import tensorflow as tf #Powerful deep learning library developed by Google
 import json
 from tensorflow import keras
 import tensorboard
