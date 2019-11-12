@@ -12,6 +12,7 @@ import os
 import analyse_text
 import numpy as np
 import matplotlib.dates 
+
 #fig2 = plt.pyplot.figure(figsize=(8.0, 5.0))
 
 

@@ -16,6 +16,7 @@ import buy as purchase
 import sell as selling
 #from custom_ML.query_model import *
 from custom_ML.query_model import categorise_sentence as model_query
+import leaderboard
 
 
 token = os.environ.get('DISCORD_TOKEN')
@@ -125,6 +126,7 @@ async def portfolio(ctx):
 
     for stock_listing in portfolio_dic:
         information_listing = "                  "
+        
 
         for v in portfolio_dic[stock_listing].keys():
 
@@ -135,10 +137,12 @@ async def portfolio(ctx):
 
                 removed_val = portfolio_dic[stock_listing].pop("total_shares")
                 break
-
+        information_listing += 'Total Shares:'+str(shares_have) +'\n'   
+        information_listing += 'Total Shares Value:'+str(round(leaderboard.share_value(stock_listing)*shares_have,2)) +'\n'     
         for time_val in portfolio_dic[stock_listing]:
            
-            information_listing += 'Total Shares:'+str(shares_have) +'\n'
+         #   information_listing += 'Total Shares:'+str(shares_have) +'\n'
+        #    information_listing += 'Total Shares Value:'+str(round(leaderboard.share_value(stock_listing)*shares_have,2)) +'\n'
 
             #Total share value
             information_listing += '----------Date: '+time_val+'----------'+'\n'

@@ -14,7 +14,7 @@ import graph
 def leaderboardList():
     memberID_list= databseCommand.list_of_members()
     print('ids:',memberID_list)
-    leaderboardList = [['rank','a',10000],['rank','b',100]]# [[rank,name,networth]]
+    leaderboardList = []# [[rank,name,networth]]
 
     for memberID in memberID_list:
         schema_leaderboard=(["rank",databseCommand.get_name(memberID),net_worth(memberID)])
@@ -93,7 +93,7 @@ def share_value(ticker):
 #print(stock_net_value(267402605318242304))
 
 
-print(leaderboardList())
+#print(leaderboardList())
 
     # closing_list = []
     # dates = []
