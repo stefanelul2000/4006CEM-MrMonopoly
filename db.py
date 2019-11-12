@@ -17,6 +17,23 @@ def member_already_joined(ajoin):
     for result in result:
         return(result["_id"])
 
+def list_of_members():
+    member_id_list = []
+    result = collection.find().distinct('_id')
+    for idKey in result:
+       # member_id_list.append(result["_id"])
+        member_id_list.append(idKey)
+
+    return member_id_list
+
+def get_name(userID):
+    name = collection.find({"_id":userID},{"name":1})
+    for username in name:
+        name = username["name"]
+    return name
+
+
+
 def get_user_balance(userID):
     balance = collection.find({"_id":userID},{"balance":1})
     
@@ -31,6 +48,9 @@ def get_portfolio(userID):
         new_portfolio = object["stocks"]
         #print(new_portfolio)
     return new_portfolio
+
+
+
 
     
 def get_user_share_amount(userID,organisation):

@@ -87,7 +87,9 @@ def get_entity_from_text(userInput):
 
 
 def process_date_entity(date):
-
+    print(date)
+    if isinstance(date,int):
+        return "week", date
     date_split = date.split()
    
     time_frame = None
