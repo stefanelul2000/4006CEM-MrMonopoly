@@ -1,0 +1,40 @@
+{"intents":[
+
+
+    
+            {"tag": "stock",
+            "patterns": ["what is the stock price","what is the stock price of","what is the share price","what is the share price of","stock","share","shares","stock price","share price","stock price of","share price of","view stock price ","show stock price","view stock price of","show stock price of","view share price","view share","view stock"],
+            "responses": ["", "",""],
+            "context_set": ""
+
+            },
+
+            {"tag": "buy",
+            "patterns": ["buy"," buy share", "buy shares","buy stocks","can i buy shares","buy stock"],
+            "responses": [""],
+            "context_set": ""
+
+            },
+            {"tag": "sell",
+            "patterns": ["sell","sell share","sell shares","can i sell shares of","can i sell share of","sell stock","sell stocks"],
+            "responses": [" "],
+            "context_set": ""
+
+            },
+
+            {"tag": "portfolio",
+                "patterns": ["portfolio","view portfolio","what does my portfolio look like","show portfolio","show me my portfolio","how much money do I have"],
+                "responses": [" "],
+                "context_set": ""
+    
+                }
+        
+
+        
+
+
+
+]}
+
+
+
