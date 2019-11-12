@@ -14,10 +14,10 @@ import graph
 def leaderboardList():
     memberID_list= databseCommand.list_of_members()
     print('ids:',memberID_list)
-    leaderboardList = []# [[rank,name,networth]]
+    leaderboardList = []# [[rank,name,networth,memberID]]
 
     for memberID in memberID_list:
-        schema_leaderboard=(["rank",databseCommand.get_name(memberID),net_worth(memberID)])
+        schema_leaderboard=(["rank",databseCommand.get_name(memberID),net_worth(memberID),memberID])
         print(schema_leaderboard)
         leaderboardList.append(schema_leaderboard)
 
