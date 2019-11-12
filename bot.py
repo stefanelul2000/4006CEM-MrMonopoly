@@ -14,7 +14,6 @@ import graph
 import analyse_text
 import buy as purchase
 import sell as selling
-#from custom_ML.query_model import *
 from custom_ML.query_model import categorise_sentence as model_query
 import leaderboard
 
