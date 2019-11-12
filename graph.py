@@ -94,7 +94,7 @@ def company_name_converter(company_name):
 
   # company_name = company_name.strip('inc')
   # print(company_name)
-   stockDict = {"apple":"AAPL","alphabet":"GOOGL","microsoft":"MSFT","amazon":"AMZN","facebook":"FB","google":"GOOGL","apple inc":"AAPL", "amazon inc": "AMZN"}
+   stockDict = {"apple":"AAPL","alphabet":"GOOGL","microsoft":"MSFT","amazon":"AMZN","facebook":"FB","google":"GOOGL","apple inc":"AAPL", "amazon inc": "AMZN","blizzard":'ATVI',"blizzard inc":"ATVI"}
 
    if company_name in stockDict:
        return stockDict[company_name]
@@ -104,7 +104,7 @@ def company_name_converter(company_name):
 
 
 def generate_api_key():
-    api_key_list = ['QGXU2BPYW3O6BZ1M','OIANPZYCJ7CPJJPR',' MLPELGS77KBUFETO','BC05ZA0TDMYJMJ5F']
+    api_key_list = ['QGXU2BPYW3O6BZ1M','OIANPZYCJ7CPJJPR',' MLPELGS77KBUFETO','BC05ZA0TDMYJMJ5F','EAL8FTMD049V5U4W']
     
     
 

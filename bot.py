@@ -139,6 +139,8 @@ async def portfolio(ctx):
         for time_val in portfolio_dic[stock_listing]:
            
             information_listing += 'Total Shares:'+str(shares_have) +'\n'
+
+            #Total share value
             information_listing += '----------Date: '+time_val+'----------'+'\n'
             
 
@@ -192,7 +194,7 @@ async def clear(ctx, ammount=100):
 
 
 
-@client.command() 
+@client.command()# $predict [userInput]
 async def predict(ctx,*,arg):
     prediction = model_query.evaluate_model(arg)
     await ctx.send(prediction)
