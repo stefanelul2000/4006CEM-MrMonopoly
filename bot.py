@@ -23,12 +23,15 @@ client = discord.Client()
 bot_prefix = "$"
 client = commands.Bot(command_prefix=bot_prefix)
 
-@client.event #Prints when bot has successfullly connected to Discord
+### Code adapted from https://techwithtim.net/tutorials/discord-py/sending-receiving-messages/
+
+@client.event #Prints when bot has successfullly connected to Discord 
 async def on_ready():
     print(f'{client.user.name} has connected to Discord!')
     print(f'ID: {client.user.id}')
-    activity = discord.Game(name="with stocks")
-    await client.change_presence(status=discord.Status.online, activity=activity)
+    activity = discord.Game(name="with stocks") # Added game
+    await client.change_presence(status=discord.Status.online, activity=activity) #Added bot activity
+
 
 @client.event #Welcomes user when joining the server
 async def on_member_join(member):
@@ -38,12 +41,13 @@ async def on_member_join(member):
 
     await member.add_roles(role)
 
-    await dm.send(f'{member.name}, welcome to my Discord Server, {random.choice(greetings)}')
+    await dm.send(f'{member.name}, welcome to my Discord Server, {random.choice(greetings)}') # Sends a welcome message as a private message as well
 
     for channel in member.guild.channels:
         if str(channel.name) == "welcome":
             await channel.send(f"""Welcome to the server {member.mention}""")
-            await channel.send(gif.gif_response('welcome'))
+            await channel.send(gif.gif_response('welcome')) #Added gif respone
+### End of code adapted from https://techwithtim.net/tutorials/discord-py/sending-receiving-messages/
 
 @client.event
 async def on_message(message):
@@ -58,7 +62,7 @@ async def on_message(message):
             await message.channel.send(gif.gif_response('hello'))
         elif message.content == "!users":
             await message.channel.send(f"""This server has {guild_id.member_count} member(s)!""")
-        elif message.content == (f"{client.user} How many Members does the server have?"):
+        elif message.content == "!members" (f"{client.user} How many Members does the server have?"):
             await message.channel.send(f"""This server has {guild_id.member_count} member(s)!""")
         elif message.content == "!thanks":
             await message.channel.send(f"{random.choice(thanks)} {message.author.name}")
@@ -195,19 +199,18 @@ async def clear(ctx, ammount=100):
     else:
         await ctx.send("You can't use that command, you are not an administrator!")
 
-
-
+"""
 @client.command()# $predict [userInput]
 async def predict(ctx,*,arg):
     prediction = model_query.evaluate_model(arg)
     await ctx.send(prediction)
-
 """
+
 @client.command()# $predict [userInput]
 async def leaderboards(ctx):
     embed = discord.Embed(title ="Leaderboard", color = 0x9900FF)
     for person in leaderboard.leaderboardList():
         embed.add_field(name=str(person[0])+' '+str(person[1])+' net worth is $'+str(person[2]), value="Total stocks owned:"+str(leaderboard.total_shares_user(person[3])), inline=False)
     await ctx.send(embed=embed)
-"""
+
 client.run(token)
