@@ -62,7 +62,7 @@ async def on_message(message):
             await message.channel.send(gif.gif_response('hello'))
         elif message.content == "!users":
             await message.channel.send(f"""This server has {guild_id.member_count} member(s)!""")
-        elif message.content == "!members" (f"{client.user} How many Members does the server have?"):
+        elif message.content == "!members":
             await message.channel.send(f"""This server has {guild_id.member_count} member(s)!""")
         elif message.content == "!thanks":
             await message.channel.send(f"{random.choice(thanks)} {message.author.name}")
@@ -207,7 +207,7 @@ async def predict(ctx,*,arg):
 """
 
 @client.command()# $predict [userInput]
-async def leaderboards(ctx):
+async def leaderboard(ctx):
     embed = discord.Embed(title ="Leaderboard", color = 0x9900FF)
     for person in leaderboard.leaderboardList():
         embed.add_field(name=str(person[0])+' '+str(person[1])+' net worth is $'+str(person[2]), value="Total stocks owned:"+str(leaderboard.total_shares_user(person[3])), inline=False)
