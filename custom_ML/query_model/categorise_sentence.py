@@ -67,7 +67,7 @@ model = keras.models.load_model("custom_ML/query_model/wallstreetModelv1.h5")
 
 
 #list of categories that can classify 
-list_of_labels = ["stock","buy","sell","portfolio"]#Need to make this automated
+list_of_labels = ["stock","buy","sell","portfolio"]
 
 
 #Converts string to tokenised and stem words, then converts to integers
