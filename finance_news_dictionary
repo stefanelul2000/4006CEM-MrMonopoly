@@ -1,0 +1,20 @@
+{"intents": [
+        {"tag": "greeting",
+         "patterns": ["Hi", "How are you", "Is everything okay", "Hello", "Good day"],
+         "responses": ["Good to see you again", "Hi there, how can I help?"],
+         "context_set": ""
+        },
+        {"tag": "goodbye",
+         "patterns": ["Bye", "See you later", "Goodbye"],
+         "responses": ["Take care", "Have a nice day", "Bye! Come back again soon."]
+        },
+        {"tag": "thanks",
+         "patterns": ["Thanks", "Thank you", "That's helpful"],
+         "responses": ["Happy to help!", "Any time!", "My pleasure"]
+        },
+        {"tag": "Companies",
+         "patterns": ["show me google", "show me apple", "show me amazon" ],
+         "responses": ["----------------", "---------------------", "------------------------"]
+        }
+   ]
+}
