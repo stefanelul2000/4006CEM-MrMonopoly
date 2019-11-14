@@ -15,7 +15,7 @@ import analyse_text
 import buy as purchase
 import sell as selling
 #from custom_ML.query_model import categorise_sentence as model_query
-import leaderboard
+import leaderboard as leader
 
 
 token = os.environ.get('DISCORD_TOKEN')
@@ -141,7 +141,7 @@ async def portfolio(ctx):
                 removed_val = portfolio_dic[stock_listing].pop("total_shares")
                 break
         information_listing += 'Total Shares:'+str(shares_have) +'\n'   
-        information_listing += 'Total Shares Value:'+str(round(leaderboard.share_value(stock_listing)*shares_have,2)) +'\n'     
+        information_listing += 'Total Shares Value:'+str(round(leader.share_value(stock_listing)*shares_have,2)) +'\n'     
         for time_val in portfolio_dic[stock_listing]:
            
          #   information_listing += 'Total Shares:'+str(shares_have) +'\n'
@@ -206,11 +206,11 @@ async def predict(ctx,*,arg):
     await ctx.send(prediction)
 """
 
-@client.command()# $predict [userInput]
+@client.command()# Shows leaderboard
 async def leaderboard(ctx):
     embed = discord.Embed(title ="Leaderboard", color = 0x9900FF)
-    for person in leaderboard.leaderboardList():
-        embed.add_field(name=str(person[0])+' '+str(person[1])+' net worth is $'+str(person[2]), value="Total stocks owned:"+str(leaderboard.total_shares_user(person[3])), inline=False)
+    for person in leader.leaderboardList():
+        embed.add_field(name=str(person[0])+' '+str(person[1])+' net worth is $'+str(person[2]), value="Total stocks owned:"+str(leader.total_shares_user(person[3])), inline=False)
     await ctx.send(embed=embed)
 
-client.run(token)
+client.run(token)   
