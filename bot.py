@@ -23,8 +23,6 @@ client = discord.Client()
 bot_prefix = "$"
 client = commands.Bot(command_prefix=bot_prefix)
 
-### Code adapted from https://techwithtim.net/tutorials/discord-py/sending-receiving-messages/
-
 @client.event #Prints when bot has successfullly connected to Discord 
 async def on_ready():
     print(f'{client.user.name} has connected to Discord!')
@@ -47,7 +45,6 @@ async def on_member_join(member):
         if str(channel.name) == "welcome":
             await channel.send(f"""Welcome to the server {member.mention}""")
             await channel.send(gif.gif_response('welcome')) #Added gif respone
-### End of code adapted from https://techwithtim.net/tutorials/discord-py/sending-receiving-messages/
 
 @client.event
 async def on_message(message):
