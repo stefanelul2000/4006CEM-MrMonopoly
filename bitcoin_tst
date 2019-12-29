@@ -1,0 +1,19 @@
+#$ pip install newsapi-python
+from newsapi import NewsApiClient
+
+# Init
+neNewsApiClient(api_key='2670fb1ad3cb41a38dc2a2287f202584')
+
+top_headlines = newsapi.get_top_headlines(q='bitcoin',
+                                          sources='https://www.bbc.co.uk/news/business',
+                                          category='business',
+                                          language='en',
+                                          country='us')
+
+all_articles = newsapi.get_everything(q='bitcoin',
+                                      sources='bbc-news,the-verge',
+                                      domains='bbc.co.uk,techcrunch.com',
+                                      sort_by='relevancy',
+                                      page=2)
+
+sources = newsapi.get_sources()
